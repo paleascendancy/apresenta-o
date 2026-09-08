@@ -7,7 +7,7 @@ function go(i,focus=true){
  current=Math.max(0,Math.min(sections.length-1,i));
  sections.forEach((s,n)=>{s.hidden=n!==current;s.classList.toggle('active',n===current)});
  const s=sections[current];s.scrollTop=0;
- document.getElementById('counter').textContent=String(current).padStart(2,'0')+' / 09';
+ document.getElementById('counter').textContent=String(current).padStart(2,'0')+' / '+String(sections.length-1).padStart(2,'0');
  [...dots.children].forEach((b,n)=>b.setAttribute('aria-current',String(n===current)));
  document.getElementById('prev').disabled=current===0;
  document.getElementById('next').disabled=current===sections.length-1;
@@ -22,7 +22,7 @@ document.addEventListener('keydown',e=>{
  if(/INPUT|TEXTAREA|SELECT|BUTTON|SUMMARY|A/.test(e.target.tagName))return;
  if(['ArrowRight','PageDown'].includes(e.key)){e.preventDefault();go(current+1)}
  if(['ArrowLeft','PageUp'].includes(e.key)){e.preventDefault();go(current-1)}
- if(e.key==='Home'){e.preventDefault();go(0)}if(e.key==='End'){e.preventDefault();go(9)}
+ if(e.key==='Home'){e.preventDefault();go(0)}if(e.key==='End'){e.preventDefault();go(sections.length-1)}
 });
 let wheelSum=0,wheelLast=0,lockedUntil=0;
 document.querySelector('main').addEventListener('wheel',e=>{
@@ -49,9 +49,9 @@ reduced.addEventListener('change',e=>{paused=e.matches;motionLabel();dirty=true}
 let w=innerWidth,h=innerHeight,t=0,last=0,dirty=true,drawnScene=-1,pointerX=0,pointerY=0;
 const camera={x:.73,y:.44,scale:.31,angle:-.45};
 const shots=[
- [.73,.42,.31,-.45],[.22,.55,.27,.8],[.80,.38,.25,1.5],
+ [.73,.42,.31,-.45],[.22,.55,.27,.8],
  [.78,.65,.34,2.3],[.20,.49,.29,3.0],[.70,.72,.27,3.8],
- [.20,.55,.33,4.5],[.82,.40,.26,5.3],[.48,.38,.35,6.0],[.76,.49,.30,6.7]
+ [.20,.55,.33,4.5],[.48,.38,.35,6.0],[.76,.49,.30,6.7]
 ];
 const nodes=[],edges=[];
 for(let side of [-1,1])for(let i=0;i<190;i++){
